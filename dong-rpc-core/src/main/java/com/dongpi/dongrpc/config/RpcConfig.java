@@ -1,5 +1,6 @@
 package com.dongpi.dongrpc.config;
 
+import com.dongpi.dongrpc.serializer.SerializerKeys;
 import lombok.Data;
 
 /**
@@ -7,11 +8,16 @@ import lombok.Data;
  *
  * @Auther: shayton
  * @Date: 2025/06/25/17:07
- * @Description: 框架全局配置
+ * @Description: 框架全局配置，保存配置信息
  */
 
 @Data
 public class RpcConfig {
+
+    /**
+     * 模拟调用
+     */
+    private boolean mock = false;
 
     /**
      * 名称
@@ -32,4 +38,14 @@ public class RpcConfig {
      * 端口号
      */
     private Integer serverPort = 8081;
+
+    /**
+     * 序列化器
+     */
+    private String serializer = SerializerKeys.JDK;
+
+    /**
+     * 注册中心配置
+     */
+    private RegistryConfig registryConfig = new RegistryConfig();
 }

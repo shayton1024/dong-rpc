@@ -1,11 +1,13 @@
 package com.dongpi.dongrpc.server;
 
+import com.dongpi.dongrpc.RpcApplication;
+import com.dongpi.dongrpc.config.RpcConfig;
 import com.dongpi.dongrpc.model.RpcRequest;
 import com.dongpi.dongrpc.model.RpcResponse;
 import com.dongpi.dongrpc.registry.LocalRegistry;
 import com.dongpi.dongrpc.serializer.JdkSerializer;
 import com.dongpi.dongrpc.serializer.Serializer;
-import com.sun.org.apache.xml.internal.serializer.SerializerFactory;
+import com.dongpi.dongrpc.serializer.SerializerFactory;
 import io.vertx.core.Handler;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpServerRequest;
@@ -26,7 +28,8 @@ public class HttpServerHandler implements Handler<HttpServerRequest> {
     @Override
     public void handle(HttpServerRequest request) {
         // 指定序列化器
-        final Serializer serializer = new JdkSerializer();
+        final Serializer serializer = SerializerFactory.getInstance(RpcApplication.getRpcConfig().getSerializer());
+        System.out.println(serializer.toString());
 
         // 记录日志
         System.out.println("Received request:" + request.method() + " " + request.uri());

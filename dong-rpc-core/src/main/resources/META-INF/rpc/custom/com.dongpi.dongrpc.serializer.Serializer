@@ -1,0 +1,4 @@
+jdk=com.dongpi.dongrpc.serializer.JdkSerializer
+hessian=com.dongpi.dongrpc.serializer.HessianSerializer
+json=com.dongpi.dongrpc.serializer.JsonSerializer
+kryo=com.dongpi.dongrpc.serializer.KryoSerializer
