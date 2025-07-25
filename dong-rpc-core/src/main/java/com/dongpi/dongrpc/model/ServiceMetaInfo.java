@@ -1,5 +1,8 @@
 package com.dongpi.dongrpc.model;
 
+import cn.hutool.core.util.StrUtil;
+import lombok.Data;
+
 /**
  * Created with IntelliJ IDEA.
  *
@@ -8,6 +11,7 @@ package com.dongpi.dongrpc.model;
  * @Description: 封装服务的注册信息
  */
 
+@Data
 public class ServiceMetaInfo {
 
     /**
@@ -49,5 +53,17 @@ public class ServiceMetaInfo {
      */
     public String getServiceNodeKey() {
         return String.format("%s/%s:%s", getServiceKey(), serviceHost, servicePort);
+    }
+
+    /**
+     * 获取服务地址
+     * @return
+     */
+    public String getServiceAddress() {
+        if(!StrUtil.contains(serviceHost, "http")) {
+            return String.format("http://%s:%s", serviceHost, servicePort);
+        } else {
+            return String.format("%s:%s", serviceHost, servicePort);
+        }
     }
 }

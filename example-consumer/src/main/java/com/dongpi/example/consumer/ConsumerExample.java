@@ -29,6 +29,7 @@ public class ConsumerExample {
 
         // 调用
         User newUser = userService.getUser(user);
+        System.out.println("1111111111111");
         if(newUser != null) {
             System.out.println(newUser.toString());
         } else {
