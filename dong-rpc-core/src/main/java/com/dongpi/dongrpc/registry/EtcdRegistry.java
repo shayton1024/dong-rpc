@@ -204,9 +204,11 @@ public class EtcdRegistry implements Registry{
                             }
                             ServiceMetaInfo serviceMetaInfo = JSONUtil.toBean(keyValue.getValue().toString(StandardCharsets.UTF_8), ServiceMetaInfo.class);
                             registryServiceCache.writeCache(serviceKey, watchServiceNodeKey, serviceMetaInfo);
+                            break;
                         case DELETE:
                             // 服务注销
                             registryServiceCache.clearCache(serviceKey, watchServiceNodeKey);
+                            break;
                         default:
                             break;
                     }
