@@ -1,0 +1,2 @@
+etcd=com.dongpi.dongrpc.registry.EtcdRegistry
+zookeeper=com.dongpi.dongrpc.registry.ZooKeeperRegistry

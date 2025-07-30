@@ -151,6 +151,7 @@ public class ZooKeeperRegistry implements Registry {
 
         pathChildrenCache.getListenable().addListener((curatorFramework, event) -> {
             try {
+                System.out.println("1");
                 String fullPath = event.getData().getPath();  // /rpc/zk/{serviceKey}/{nodeId}
                 String nodeData = new String(event.getData().getData(), StandardCharsets.UTF_8);
                 String watchServiceNodeKey = fullPath;  // 直接用路径作为唯一标识
@@ -180,6 +181,7 @@ public class ZooKeeperRegistry implements Registry {
         });
 
         try {
+            System.out.println(PathChildrenCache.StartMode.BUILD_INITIAL_CACHE);
             pathChildrenCache.start(PathChildrenCache.StartMode.BUILD_INITIAL_CACHE);
             log.info("ZK开始监听服务：{}", watchPath);
         } catch (Exception e) {
