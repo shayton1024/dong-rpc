@@ -8,8 +8,7 @@ import com.dongpi.dongrpc.model.ServiceMetaInfo;
 import com.dongpi.dongrpc.registry.LocalRegistry;
 import com.dongpi.dongrpc.registry.Registry;
 import com.dongpi.dongrpc.registry.RegistryFactory;
-import com.dongpi.dongrpc.server.HttpServer;
-import com.dongpi.dongrpc.server.VertxHttpServer;
+import com.dongpi.dongrpc.server.tcp.VertxTcpServer;
 
 /**
  * Created with IntelliJ IDEA.
@@ -42,8 +41,12 @@ public class ProviderExample {
             throw new RuntimeException("服务注册失败", e);
         }
 
-        // 启动web服务
-        HttpServer httpServer = new VertxHttpServer();
-        httpServer.doStart(rpc.getServerPort());
+//        // 启动web服务
+//        HttpServer httpServer = new VertxHttpServer();
+//        httpServer.doStart(rpc.getServerPort());
+
+        // 启动Tcp服务
+        VertxTcpServer vertxTcpServer = new VertxTcpServer();
+        vertxTcpServer.doStart(8081);
     }
 }

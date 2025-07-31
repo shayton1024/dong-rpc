@@ -3,7 +3,7 @@ package com.dongpi.example.provider;
 import com.dongpi.common.service.UserService;
 import com.dongpi.dongrpc.registry.LocalRegistry;
 import com.dongpi.dongrpc.server.HttpServer;
-import com.dongpi.dongrpc.server.VertxHttpServer;
+import com.dongpi.dongrpc.server.http.VertxHttpServer;
 
 /**
  * Created with IntelliJ IDEA.

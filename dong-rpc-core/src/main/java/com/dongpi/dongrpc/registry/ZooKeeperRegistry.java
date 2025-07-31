@@ -6,6 +6,7 @@ import com.dongpi.dongrpc.model.ServiceMetaInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
+import org.apache.curator.framework.recipes.cache.ChildData;
 import org.apache.curator.framework.recipes.cache.CuratorCache;
 import org.apache.curator.framework.recipes.cache.CuratorCacheListener;
 import org.apache.curator.framework.recipes.cache.PathChildrenCache;
@@ -151,9 +152,17 @@ public class ZooKeeperRegistry implements Registry {
 
         pathChildrenCache.getListenable().addListener((curatorFramework, event) -> {
             try {
-                System.out.println("1");
-                String fullPath = event.getData().getPath();  // /rpc/zk/{serviceKey}/{nodeId}
-                String nodeData = new String(event.getData().getData(), StandardCharsets.UTF_8);
+                if (event == null || event.getData() == null) {
+                    log.warn("ZK监听到空事件，serviceKey = {}", serviceKey);
+                    return;
+                }
+                ChildData data = event.getData();
+                if (data == null) {
+                    log.warn("ZK监听到空数据，serviceKey = {}", serviceKey);
+                    return;
+                }
+                String fullPath = data.getPath();  // /rpc/zk/{serviceKey}/{nodeId}
+                String nodeData = new String(data.getData(), StandardCharsets.UTF_8);
                 String watchServiceNodeKey = fullPath;  // 直接用路径作为唯一标识
 
                 switch (event.getType()) {

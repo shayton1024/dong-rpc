@@ -1,7 +1,7 @@
-package com.dongpi.dongrpc.server;
+package com.dongpi.dongrpc.server.tcp;
 
+import com.dongpi.dongrpc.server.HttpServer;
 import io.vertx.core.Vertx;
-import io.vertx.core.buffer.Buffer;
 import io.vertx.core.net.NetServer;
 
 /**
@@ -11,7 +11,7 @@ import io.vertx.core.net.NetServer;
  * @Date: 2025/07/30/18:19
  * @Description:
  */
-public class VertTcpServer implements HttpServer{
+public class VertxTcpServer implements HttpServer {
 
     private byte[] handleRequest(byte[] request) {
         // 这里可以添加自定义的请求处理逻辑
@@ -29,16 +29,7 @@ public class VertTcpServer implements HttpServer{
         NetServer server = vertx.createNetServer();
 
         // 处理请求
-        server.connectHandler(socker -> {
-            socker.handler(buffer -> {
-                // 处理接收到的数据
-                byte[] requestData = buffer.getBytes();
-                // 进行自定义数据处理逻辑，解析请求、调用服务、构造响应等
-                byte[] bytes = handleRequest(requestData);
-                // 发送响应
-                socker.write(Buffer.buffer(bytes));
-            });
-        });
+        server.connectHandler(new TcpServerHandler());
 
         // 启动TCP服务器并且监听端口
         server.listen(port, result -> {
@@ -50,7 +41,4 @@ public class VertTcpServer implements HttpServer{
         });
     }
 
-    public static void main(String[] args) {
-        new VertTcpServer().doStart(8888);
-    }
 }
