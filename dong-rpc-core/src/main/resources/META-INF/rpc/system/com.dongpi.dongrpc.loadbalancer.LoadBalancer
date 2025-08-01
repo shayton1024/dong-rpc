@@ -1,0 +1,3 @@
+roundRobin=com.dongpi.dongrpc.loadbalancer.impl.RoundRobinLoadBalancer
+random=com.dongpi.dongrpc.loadbalancer.impl.RandomLoadBalancer
+consistentHash=com.dongpi.dongrpc.loadbalancer.impl.ConsistentHashLoadBalancer
