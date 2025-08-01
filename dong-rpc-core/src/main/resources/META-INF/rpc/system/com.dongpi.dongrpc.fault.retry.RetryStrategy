@@ -1,0 +1,2 @@
+no=com.dongpi.dongrpc.fault.retry.impl.NoRetryStrategy
+fixedInterval=com.dongpi.dongrpc.fault.retry.impl.FixedIntervalRetryStrategy

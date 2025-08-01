@@ -27,10 +27,8 @@ public class ConsumerExample {
         User user = new User();
         user.setName("shayton");
 
-        for(int i = 0; i < 3; i++) {
-            // 调用服务
-            User result = userService.getUser(user);
-            System.out.println("调用结果: " + result);
-        }
+        // 调用服务
+        User result = userService.getUser(user);
+        System.out.println("调用结果: " + result);
     }
 }
