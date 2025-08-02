@@ -7,6 +7,8 @@ import cn.hutool.http.HttpResponse;
 import com.dongpi.constant.RpcConstant;
 import com.dongpi.dongrpc.RpcApplication;
 import com.dongpi.dongrpc.config.RpcConfig;
+import com.dongpi.dongrpc.fault.retry.RetryStrategy;
+import com.dongpi.dongrpc.fault.retry.RetryStrategyFactory;
 import com.dongpi.dongrpc.loadbalancer.LoadBalancer;
 import com.dongpi.dongrpc.loadbalancer.LoadBalancerFactory;
 import com.dongpi.dongrpc.model.RpcRequest;
@@ -73,8 +75,12 @@ public class ServiceProxy implements InvocationHandler {
             requestParams.put("methodName", rpcRequest.getMethodName());
             ServiceMetaInfo selectedServiceMetaInfo = loadBalancer.select(requestParams, serviceMetaInfoList);
 
+            // 获取重试机制
+            RetryStrategy retryStrategy = RetryStrategyFactory.getInstance(rpcConfig.getRetryStrategy());
             // 发送Tcp请求
-            RpcResponse rpcResponse = VertxTcpClient.doRequest(rpcRequest, selectedServiceMetaInfo);
+            RpcResponse rpcResponse = retryStrategy.doRetry(
+                    () -> VertxTcpClient.doRequest(rpcRequest, selectedServiceMetaInfo));
+
             return rpcResponse.getData();
 
         } catch (Exception e) {
