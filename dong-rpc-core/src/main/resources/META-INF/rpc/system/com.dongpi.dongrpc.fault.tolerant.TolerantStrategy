@@ -1,0 +1,4 @@
+failBack=com.dongpi.dongrpc.fault.tolerant.impl.FailBackTolerantStrategy
+failFast=com.dongpi.dongrpc.fault.tolerant.impl.FailFastTolerantStrategy
+failOver=com.dongpi.dongrpc.fault.tolerant.impl.FailOverTolerantStrategy
+failSafe=com.dongpi.dongrpc.fault.tolerant.impl.FailSafeTolerantStrategy

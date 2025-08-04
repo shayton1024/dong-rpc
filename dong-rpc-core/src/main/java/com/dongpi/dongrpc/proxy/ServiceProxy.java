@@ -9,6 +9,8 @@ import com.dongpi.dongrpc.RpcApplication;
 import com.dongpi.dongrpc.config.RpcConfig;
 import com.dongpi.dongrpc.fault.retry.RetryStrategy;
 import com.dongpi.dongrpc.fault.retry.RetryStrategyFactory;
+import com.dongpi.dongrpc.fault.tolerant.TolerantStrategy;
+import com.dongpi.dongrpc.fault.tolerant.TolerantStrategyFactory;
 import com.dongpi.dongrpc.loadbalancer.LoadBalancer;
 import com.dongpi.dongrpc.loadbalancer.LoadBalancerFactory;
 import com.dongpi.dongrpc.model.RpcRequest;
@@ -75,11 +77,26 @@ public class ServiceProxy implements InvocationHandler {
             requestParams.put("methodName", rpcRequest.getMethodName());
             ServiceMetaInfo selectedServiceMetaInfo = loadBalancer.select(requestParams, serviceMetaInfoList);
 
-            // 获取重试机制
-            RetryStrategy retryStrategy = RetryStrategyFactory.getInstance(rpcConfig.getRetryStrategy());
-            // 发送Tcp请求
-            RpcResponse rpcResponse = retryStrategy.doRetry(
-                    () -> VertxTcpClient.doRequest(rpcRequest, selectedServiceMetaInfo));
+            RpcResponse rpcResponse;
+            try {
+                // 获取重试机制
+                RetryStrategy retryStrategy = RetryStrategyFactory.getInstance(rpcConfig.getRetryStrategy());
+                // 发送Tcp请求
+                rpcResponse = retryStrategy.doRetry(
+                        () -> VertxTcpClient.doRequest(rpcRequest, selectedServiceMetaInfo));
+            } catch (Exception e) {
+                // 获取容错机制
+                TolerantStrategy tolerantStrategy = TolerantStrategyFactory.getInstance(rpcConfig.getTolerantStrategy());
+                Map<String, Object> requestTolerantParamMap = new HashMap<>();
+                requestTolerantParamMap.put("rpcRequest", rpcRequest);
+                requestTolerantParamMap.put("selectedServiceMetaInfo", selectedServiceMetaInfo);
+                requestTolerantParamMap.put("serviceMetaInfoList", serviceMetaInfoList);
+                rpcResponse = tolerantStrategy.doTolerant(requestTolerantParamMap, e);
+
+                // TODO 增加降级机制，Mock
+                if(rpcResponse == null)
+                    return null;
+            }
 
             return rpcResponse.getData();
 

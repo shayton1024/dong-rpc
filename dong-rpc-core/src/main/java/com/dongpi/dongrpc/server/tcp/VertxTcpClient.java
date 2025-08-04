@@ -64,6 +64,7 @@ public class VertxTcpClient {
                 socket.handler(bufferHandlerWrapper);
             } else {
                 System.err.println("Fail to connect to server: " + result.cause().getMessage());
+                responseFuture.completeExceptionally(new RuntimeException("Fail to connect to server: " + result.cause().getMessage()));
             }
         });
         RpcResponse rpcResponse = responseFuture.get();
