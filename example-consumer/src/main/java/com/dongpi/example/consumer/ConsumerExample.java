@@ -2,6 +2,7 @@ package com.dongpi.example.consumer;
 
 import com.dongpi.common.model.User;
 import com.dongpi.common.service.UserService;
+import com.dongpi.dongrpc.bootstrap.ConsumerBootstrap;
 import com.dongpi.dongrpc.config.RpcConfig;
 import com.dongpi.dongrpc.proxy.ServiceProxyFactory;
 import com.dongpi.dongrpc.utils.ConfigUtils;
@@ -16,10 +17,8 @@ import com.dongpi.dongrpc.utils.ConfigUtils;
 public class ConsumerExample {
 
     public static void main(String[] args) {
-
-//        RpcConfig rpcConfig = ConfigUtils.loadConfig(RpcConfig.class, "rpc");
-//
-//        System.out.println(rpcConfig);
+        // 初始化配置
+        ConsumerBootstrap.init();
 
         // 获取代理
         UserService userService = ServiceProxyFactory.getProxy(UserService.class);
@@ -29,6 +28,10 @@ public class ConsumerExample {
 
         // 调用服务
         User result = userService.getUser(user);
-        System.out.println("调用结果: " + result);
+        if(result != null) {
+            System.out.println("调用结果: " + result);
+        } else {
+            System.out.println("调用失败，未返回结果");
+        }
     }
 }

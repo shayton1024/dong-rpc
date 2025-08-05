@@ -12,6 +12,7 @@
         <module name="dong-rpc-core" />
         <module name="example-common" />
         <module name="example-consumer" />
+        <module name="dong-rpc-spring-boot-starter" />
       </profile>
     </annotationProcessing>
   </component>
