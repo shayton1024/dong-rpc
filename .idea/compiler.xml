@@ -7,7 +7,9 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="example-springboot-provider" />
         <module name="dong-rpc-easy" />
+        <module name="example-springboot-consumer" />
         <module name="example-provider" />
         <module name="dong-rpc-core" />
         <module name="example-common" />

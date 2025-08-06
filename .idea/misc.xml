@@ -10,6 +10,8 @@
         <option value="$PROJECT_DIR$/dong-rpc-easy/pom.xml" />
         <option value="$PROJECT_DIR$/dong-rpc-core/pom.xml" />
         <option value="$PROJECT_DIR$/dong-rpc-spring-boot-starter/pom.xml" />
+        <option value="$PROJECT_DIR$/example-springboot-consumer/pom.xml" />
+        <option value="$PROJECT_DIR$/example-springboot-provider/pom.xml" />
       </list>
     </option>
   </component>
